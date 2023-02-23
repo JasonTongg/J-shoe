@@ -1,0 +1,57 @@
+<template>
+  <section class="container">
+    <h2>Page Not Found</h2>
+    <p>Please return to Home Page</p>
+    <nuxtLink to="/" tag="button">Back</nuxtLink>
+    <img src="../static/assets/Vectors-2.png" alt="vector" />
+  </section>
+</template>
+<script>
+export default {
+  props: ["error"],
+  layout: "error", // you can set a custom layout for the error page
+};
+</script>
+<style scoped>
+.container {
+  background-color: #093545;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.container > * {
+  margin: 0;
+}
+
+h2 {
+  font-size: 64px;
+}
+
+p {
+  font-size: 25px;
+}
+
+button {
+  background-color: #224957;
+  border-radius: 100px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 12px 21px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+</style>
