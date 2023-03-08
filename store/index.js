@@ -80,6 +80,7 @@ export const actions = {
         for (const key in response) {
           shoeArray.push({ ...response[key], id: key });
         }
+        console.log(shoeArray);
         commit("setShoes", shoeArray);
       })
       .catch((e) => context.error(e));
