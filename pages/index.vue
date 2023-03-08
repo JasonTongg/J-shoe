@@ -44,7 +44,7 @@ export default {
     Navbar,
     Footer,
   },
-  // middleware: ["check-auth", "auth"],
+  middleware: ["check-auth", "auth"],
   data() {
     return {};
   },
