@@ -64,15 +64,15 @@ export const actions = {
       }
       commit("setShoes", shoeArray);
     });
-    let promise2 = axios.get(url2).then(function (response) {
-      const shoeArray = [];
-      for (const key in response.data) {
-        shoeArray.push({ ...response.data[key], id: key });
-      }
-      commit("setShoes", shoeArray);
-    });
+    // let promise2 = axios.get(url2).then(function (response) {
+    //   const shoeArray = [];
+    //   for (const key in response.data) {
+    //     shoeArray.push({ ...response.data[key], id: key });
+    //   }
+    //   commit("setShoes", shoeArray);
+    // });
 
-    return Promise.all([promise1, promise2]).then();
+    return Promise.all([promise1]).then();
   },
   initAuth({ commit, dispatch }, req) {
     let user;
