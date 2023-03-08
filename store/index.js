@@ -53,7 +53,7 @@ export const mutations = {
 };
 
 export const actions = {
-  nuxtServerInit({ commit }) {
+  async nuxtServerInit({ commit }) {
     // let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
     // let url2 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
     // let promise1 = axios.get(url1).then(function (response) {
@@ -71,12 +71,14 @@ export const actions = {
     //   commit("setShoes", shoeArray);
     // });
     // return Promise.all([promise1]).then();
-    return axios
-      .get("https://j-shoe-default-rtdb.firebaseio.com/shoeList.json")
-      .then((response) => {
+    return await fetch(
+      "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json"
+    )
+      .then(async (response) => {
+        response = await response.json();
         const shoeArray = [];
-        for (const key in response.data) {
-          shoeArray.push({ ...response.data[key], id: key });
+        for (const key in response) {
+          shoeArray.push({ ...response[key], id: key });
         }
         commit("setShoes", shoeArray);
       })
