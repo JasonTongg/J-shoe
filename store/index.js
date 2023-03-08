@@ -96,6 +96,9 @@ export const actions = {
         return;
       }
       token = jwtCookie.split("=")[1];
+    } else {
+      token = localStorage.getItem("token");
+      user = JSON.parse(localStorage.getItem("user"));
     }
     commit("setToken", token);
     commit("setUserData", user);
