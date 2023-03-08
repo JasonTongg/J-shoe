@@ -36,7 +36,9 @@ export default {
   },
   methods: {
     addCart() {
-      this.$store.dispatch("addUserCart", this.$route.query.shoes);
+      let data = this.$route.query.shoes;
+      delete data.id;
+      this.$store.dispatch("addUserCart", data);
     },
   },
 };
@@ -97,7 +99,7 @@ main .info p:last-of-type {
   text-align: justify;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;

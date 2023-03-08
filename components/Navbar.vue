@@ -6,11 +6,11 @@
         <li>Home</li>
         <li>Collections</li>
         <li>Sale</li>
-        <li>
+        <nuxtLink tag="li" to="/cart">
           Cart
           <img src="../static/assets/icon/cart.svg" alt="cart" />
           <p v-show="cart.length > 0"></p>
-        </li>
+        </nuxtLink>
         <nuxtLink tag="li" to="/admin" v-if="userData.userName">{{
           userData.userName
         }}</nuxtLink>
@@ -27,10 +27,10 @@
           <li>Home</li>
           <li>Collections</li>
           <li>Sale</li>
-          <li>
+          <nuxtLink tag="li" to="/cart">
             Cart
             <img src="../static/assets/icon/cart.svg" alt="cart" />
-          </li>
+          </nuxtLink>
           <nuxtLink tag="li" to="/admin" v-if="userData.userName">{{
             userData.userName
           }}</nuxtLink>

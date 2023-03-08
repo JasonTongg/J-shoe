@@ -31,7 +31,7 @@
         </div>
       </div>
     </main>
-    {{ shoes.length }}
+
     <Footer></Footer>
   </div>
 </template>
