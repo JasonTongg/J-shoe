@@ -27,6 +27,7 @@ export default {
         password: this.password,
         isLogin: true,
       });
+      this.$router.push("/");
     },
   },
 };
@@ -41,6 +42,7 @@ export default {
   align-items: center;
   justify-content: center;
   font-family: "Lexend Deca", sans-serif;
+  text-align: center;
 }
 img {
   width: 100%;
@@ -104,5 +106,26 @@ a {
   color: white !important;
   border-radius: 100px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 400px) {
+  form h2 {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  form button {
+    width: 100%;
+  }
+  form input {
+    width: calc(100vw - 2rem);
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  form h2 {
+    font-size: 30px;
+  }
 }
 </style>

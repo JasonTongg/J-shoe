@@ -4,6 +4,7 @@
     <form @submit.prevent="register">
       <h2>Sign Up</h2>
       <p>Sign in and start managing your candidates!</p>
+      <input type="text" placeholder="Username" v-model="userName" />
       <input type="text" placeholder="Email" v-model="email" />
       <input type="password" placeholder="Password" v-model="password" />
       <input
@@ -24,6 +25,7 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
+      userName: "",
     };
   },
   methods: {
@@ -36,7 +38,9 @@ export default {
         email: this.email,
         password: this.password,
         isLogin: false,
+        userName: this.userName,
       });
+      this.$router.push("/login");
     },
   },
 };
@@ -52,6 +56,7 @@ export default {
   justify-content: center;
   color: white;
   font-family: "Lexend Deca", sans-serif;
+  text-align: center;
 }
 img {
   width: 100%;
@@ -115,5 +120,26 @@ a {
   color: white !important;
   border-radius: 100px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 400px) {
+  form h2 {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  form button {
+    width: 100%;
+  }
+  form input {
+    width: calc(100vw - 2rem);
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  form h2 {
+    font-size: 30px;
+  }
 }
 </style>

@@ -5,10 +5,24 @@
       <h2>Product <span>Sale</span></h2>
       <div class="productItems">
         <div class="item" v-for="shoe in shoes">
-          <img :src="shoe.img" alt="" />
-          <h2>{{ shoe.name }}</h2>
-          <h3>{{ shoe.priceThrough }}</h3>
-          <h3>{{ shoe.price }}</h3>
+          <img :src="shoe.image" alt="" />
+          <h2>{{ shoe.title }}</h2>
+          <h3>
+            {{
+              new Intl.NumberFormat("Rp", {
+                style: "currency",
+                currency: "idr",
+              }).format(Math.round(shoe.price * 1.6))
+            }}
+          </h3>
+          <h3>
+            {{
+              new Intl.NumberFormat("Rp", {
+                style: "currency",
+                currency: "idr",
+              }).format(shoe.price)
+            }}
+          </h3>
           <nuxt-link
             tag="button"
             :to="{ path: 'details', query: { shoes: shoe } }"
@@ -30,6 +44,7 @@ export default {
     Navbar,
     Footer,
   },
+  middleware: ["check-auth", "auth"],
   data() {
     return {};
   },
@@ -48,9 +63,17 @@ export default {
   box-sizing: border-box;
   font-family: "Lexend Deca", sans-serif;
 }
+#wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
 main {
   padding: 2rem 5rem;
   text-align: center;
+  width: 100%;
 }
 
 main h2 {
@@ -116,5 +139,23 @@ main .productItems .item button {
   padding: 1rem;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    padding-inline: 2rem;
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  main {
+    padding-inline: 1rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  main .productItems {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

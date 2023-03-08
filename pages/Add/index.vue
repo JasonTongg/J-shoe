@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-    <form>
+    <form @submit.prevent="addItem">
       <h2>Add New Item</h2>
       <p>New Shoe take you Good Place!</p>
       <div class="inputContainer">
         <label for="title">Title</label>
-        <input type="text" placeholder="Title" id="title" />
+        <input type="text" placeholder="Title" id="title" v-model="title" />
       </div>
       <div class="inputContainer">
         <label for="price">Price</label>
-        <input type="text" placeholder="Price" id="price" />
+        <input type="text" placeholder="Price" id="price" v-model="price" />
       </div>
       <div class="inputContainer">
         <label for="file">Image Link</label>
-        <input type="text" id="file" placeholder="Image Link" />
+        <input type="text" id="file" placeholder="Image Link" v-model="image" />
       </div>
       <button>Submit</button>
     </form>
@@ -21,7 +21,35 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      title: "",
+      price: "",
+      image: "",
+    };
+  },
+  middleware: ["check-auth", "auth"],
+  methods: {
+    addItem() {
+      if (
+        this.title.length > 0 &&
+        this.price.length > 0 &&
+        this.image.length > 0
+      ) {
+        this.$store
+          .dispatch("addShoe", {
+            title: this.title,
+            price: this.price,
+            image: this.image,
+          })
+          .then(() => this.$router.push("/"));
+      } else {
+        alert("Please fill the form");
+      }
+    },
+  },
+};
 </script>
 <style scoped>
 .container {
@@ -32,6 +60,7 @@ export default {};
   justify-content: center;
   font-family: "Lexend Deca", sans-serif;
   background: url("../../static/assets/star.png"), #e6e6e6;
+  text-align: center;
 }
 
 form {
@@ -40,6 +69,7 @@ form {
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  padding: 1rem;
 }
 
 form > * {
@@ -96,5 +126,26 @@ a {
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  form h2 {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  form button {
+    width: 100%;
+  }
+  form input {
+    width: calc(100vw - 2rem);
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  form h2 {
+    font-size: 30px;
+  }
 }
 </style>

@@ -40,6 +40,12 @@ export default {
   modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: [
+      "@sindresorhus/slugify",
+      "@sindresorhus/transliterate",
+      "hast-util-select",
+    ],
+  },
   generate: { fallback: "404.html" },
 };

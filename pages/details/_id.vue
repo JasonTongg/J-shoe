@@ -2,11 +2,11 @@
   <div class="container">
     <Navbar></Navbar>
     <main>
-      <img :src="shoe.img" :alt="shoe.name" />
+      <img :src="shoe.image" :alt="shoe.name" />
       <div class="info">
-        <h2>{{ shoe.name }}</h2>
-        <p>{{ shoe.priceThrough }}</p>
-        <p>{{ shoe.price }}</p>
+        <h2>{{ shoe.title }}</h2>
+        <p>Rp. {{ Math.round(shoe.price * 1.6) }},-</p>
+        <p>Rp. {{ shoe.price }},-</p>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. A beatae
           veritatis, consequatur voluptates qui rem cum possimus deserunt dolor
@@ -14,7 +14,7 @@
           voluptatum. Unde, eveniet. Lorem ipsum dolor sit amet consectetur
           adipisicing elit. Veniam, eum.
         </p>
-        <button>Add to cart</button>
+        <button @click="addCart">Add to cart</button>
       </div>
     </main>
     <Footer></Footer>
@@ -28,10 +28,16 @@ export default {
     Navbar,
     Footer,
   },
+  middleware: "check-auth",
   data() {
     return {
       shoe: this.$route.query.shoes,
     };
+  },
+  methods: {
+    addCart() {
+      this.$store.dispatch("addUserCart", this.$route.query.shoes);
+    },
   },
 };
 </script>
@@ -85,5 +91,29 @@ button {
   font-size: 1.2rem;
   border-radius: 10px;
   cursor: pointer;
+}
+
+main .info p:last-of-type {
+  text-align: justify;
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  main img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    padding-inline: 1rem;
+  }
 }
 </style>

@@ -57,14 +57,17 @@ footer {
   padding: 2rem 5rem;
   background-color: #093545;
   color: white;
+  width: 100%;
 }
 
 footer .list {
   width: 100%;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (minmax(350px, 1fr)) [auto-fit];
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 8rem;
+  row-gap: 1.5rem;
 }
 
 footer .list ul {
@@ -84,10 +87,23 @@ footer .list ul li:not(:last-of-type) {
 
 footer p {
   font-size: 1.2rem;
+  text-align: center;
 }
 
 footer p span {
   font-weight: bold;
   color: #20df7f;
+}
+
+@media only screen and (max-width: 550px) {
+  footer {
+    padding-inline: 2rem;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  footer p {
+    font-size: 0.8rem;
+  }
 }
 </style>
