@@ -6,7 +6,7 @@
       <p>Sign in and start managing your candidates!</p>
       <input type="text" placeholder="Email" v-model="email" />
       <input type="password" placeholder="Password" v-model="password" />
-      <button>Login</button>
+      <button type="submit">Login</button>
       <p>Don't have account? <nuxt-link to="/register">Register</nuxt-link></p>
     </form>
     <nuxtLink class="back" to="/">Back</nuxtLink>
@@ -84,6 +84,7 @@ form button {
 button {
   background-color: #20df7f !important;
   color: black !important;
+  cursor: pointer;
 }
 
 form input::placeholder {
