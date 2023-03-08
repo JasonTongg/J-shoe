@@ -16,6 +16,7 @@ export const getters = {
     return state.userData;
   },
   getCart(state) {
+    console.log(state.cart);
     return state.cart;
   },
   isAuthenticated(state) {
@@ -54,37 +55,36 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit({ commit }) {
-    // let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
-    // let url2 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
-    // let promise1 = axios.get(url1).then(function (response) {
-    //   const shoeArray = [];
-    //   for (const key in response.data) {
-    //     shoeArray.push({ ...response.data[key], id: key });
-    //   }
-    //   commit("setShoes", shoeArray);
-    // });
-    // let promise2 = axios.get(url2).then(function (response) {
-    //   const shoeArray = [];
-    //   for (const key in response.data) {
-    //     shoeArray.push({ ...response.data[key], id: key });
-    //   }
-    //   commit("setShoes", shoeArray);
-    // });
-    // return Promise.all([promise1]).then();
-    console.log("jalan?");
-    return await fetch(
-      "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json"
-    )
-      .then(async (response) => {
-        response = await response.json();
-        const shoeArray = [];
-        for (const key in response) {
-          shoeArray.push({ ...response[key], id: key });
+    let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
+    let promise1 = axios.get(url1).then(function (response) {
+      const shoeArray = [];
+      for (const key in response.data) {
+        shoeArray.push({ ...response.data[key], id: key });
+      }
+      commit("setShoes", shoeArray);
+    });
+
+    let promise2 = axios
+      .get(
+        `https://j-shoe-default-rtdb.firebaseio.com/accountCart${
+          state.userData?.userId
+            ? state.userData?.userId
+            : "mT5gpL4B8agTtBQo9kyFRKysO4h1"
+        }.json?auth=eyJhbGciOiJSUzI1NiIsImtpZCI6IjU4ODI0YTI2ZjFlY2Q1NjEyN2U4OWY1YzkwYTg4MDYxMTJhYmU5OWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidG9uaSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9qLXNob2UiLCJhdWQiOiJqLXNob2UiLCJhdXRoX3RpbWUiOjE2NzgyNTI0MDUsInVzZXJfaWQiOiJtRWVPaTBGeUtPWnBCeGJkY0NKalRwYTIzUXIxIiwic3ViIjoibUVlT2kwRnlLT1pwQnhiZGNDSmpUcGEyM1FyMSIsImlhdCI6MTY3ODI1MjQwNSwiZXhwIjoxNjc4MjU2MDA1LCJlbWFpbCI6ImFib3l0b25nMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJveXRvbmcxQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.X-YxBgIgY5F5YbxrDKUo-uOjOGNUliAd0kQ8eHS2TfVh6I2PCceQiv77yF94L_ltvtVpdV7YN5fcFx_0EAhGbkHgDYJKZnnJN403PVya-ZkigF_VqKdbJtnXikBGj9ECEMiYOGwyMrYfJ75ByRuTVO_NtqLuhI-DeUfOERmWD9KSdKIbwtYPyz_ZiG4Ji7LJIr8enjAkDH22BeqVgvmx0lsxYk47-zmZqb_1l-Dz1BZI1wek388iugQHLm7vmF7zIKEFN0bi7UMQAHBPo75CcA7DfSaGhRdhs6r8FNJ5MboWHvwF09PCsccYsykylNkVmU1GOC2MTyXCCDQn4ccbOQ`
+      )
+      .then((response) => {
+        if (response.data) {
+          const cartArray = [];
+          for (const key in response.data) {
+            cartArray.push({ ...response.data[key] });
+          }
+          console.log(cartArray);
+          commit("setToCart", cartArray);
+        } else {
+          commit("setToCart", []);
         }
-        console.log(shoeArray);
-        commit("setShoes", shoeArray);
-      })
-      .catch((e) => context.error(e));
+      });
+    return Promise.all([promise1, promise2]).then();
   },
   initAuth({ commit, dispatch }, req) {
     let user;
@@ -129,24 +129,6 @@ export const actions = {
         commit("addToCart", {
           ...shoe,
         });
-      });
-  },
-  getUserCart({ state, commit }) {
-    return axios
-      .get(
-        `https://j-shoe-default-rtdb.firebaseio.com/accountCart${state.userData.userId}.json?auth=` +
-          localStorage.getItem("token")
-      )
-      .then((response) => {
-        if (response.data) {
-          const cartArray = [];
-          for (const key in response.data) {
-            cartArray.push({ ...response.data[key] });
-          }
-          commit("setToCart", cartArray);
-        } else {
-          commit("setToCart", []);
-        }
       });
   },
   deleteShoes({ commit }, shoeId) {
@@ -217,18 +199,27 @@ export const actions = {
             userName: response.data.displayName,
           })
         );
-        if (authData.isLogin === false) {
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              userId: response.data.localId,
-              email: response.data.email,
-              userName: response.data.displayName,
-            })
-          );
-        } else {
-          localStorage.setItem("userId", response.data.localId);
-        }
+        // if (authData.isLogin === false) {
+        //   localStorage.setItem(
+        //     "user",
+        //     JSON.stringify({
+        //       userId: response.data.localId,
+        //       email: response.data.email,
+        //       userName: response.data.displayName,
+        //     })
+        //   );
+        // } else {
+        //   localStorage.setItem("userId", response.data.localId);
+        // }
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            userId: response.data.localId,
+            email: response.data.email,
+            userName: response.data.displayName,
+          })
+        );
+        localStorage.setItem("userId", response.data.localId);
       })
       .catch((error) => console.log(error.response.data.message));
   },

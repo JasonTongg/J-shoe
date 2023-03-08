@@ -9,6 +9,7 @@
         <li>
           Cart
           <img src="../static/assets/icon/cart.svg" alt="cart" />
+          <p v-show="cart.length > 0"></p>
         </li>
         <nuxtLink tag="li" to="/admin" v-if="userData.userName">{{
           userData.userName
@@ -16,6 +17,7 @@
         <li v-if="userData.userName" @click="logout">Logout</li>
         <nuxtLink tag="li" to="/login" v-else>Login</nuxtLink>
       </ul>
+      {{ cart }}
       <div @click="toggleNavbar" class="menuNavbar">
         <div></div>
         <div></div>
@@ -43,12 +45,10 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      cart: [],
-    };
-  },
   computed: {
+    cart() {
+      return this.$store.getters.getCart;
+    },
     userData() {
       return this.$store.getters.getUserData;
     },
