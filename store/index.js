@@ -71,6 +71,7 @@ export const actions = {
     //   commit("setShoes", shoeArray);
     // });
     // return Promise.all([promise1]).then();
+    console.log("jalan?");
     return await fetch(
       "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json"
     )
