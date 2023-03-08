@@ -17,7 +17,6 @@
         <li v-if="userData.userName" @click="logout">Logout</li>
         <nuxtLink tag="li" to="/login" v-else>Login</nuxtLink>
       </ul>
-      {{ cart }}
       <div @click="toggleNavbar" class="menuNavbar">
         <div></div>
         <div></div>
