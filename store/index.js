@@ -54,16 +54,15 @@ export const mutations = {
 
 export const actions = {
   nuxtServerInit({ commit }) {
-    let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
-    let url2 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
-
-    let promise1 = axios.get(url1).then(function (response) {
-      const shoeArray = [];
-      for (const key in response.data) {
-        shoeArray.push({ ...response.data[key], id: key });
-      }
-      commit("setShoes", shoeArray);
-    });
+    // let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
+    // let url2 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
+    // let promise1 = axios.get(url1).then(function (response) {
+    //   const shoeArray = [];
+    //   for (const key in response.data) {
+    //     shoeArray.push({ ...response.data[key], id: key });
+    //   }
+    //   commit("setShoes", shoeArray);
+    // });
     // let promise2 = axios.get(url2).then(function (response) {
     //   const shoeArray = [];
     //   for (const key in response.data) {
@@ -71,8 +70,17 @@ export const actions = {
     //   }
     //   commit("setShoes", shoeArray);
     // });
-
-    return Promise.all([promise1]).then();
+    // return Promise.all([promise1]).then();
+    return axios
+      .get("https://j-shoe-default-rtdb.firebaseio.com/shoeList.json")
+      .then((response) => {
+        const shoeArray = [];
+        for (const key in response.data) {
+          shoeArray.push({ ...response.data[key], id: key });
+        }
+        commit("setShoes", shoeArray);
+      })
+      .catch((e) => context.error(e));
   },
   initAuth({ commit, dispatch }, req) {
     let user;
