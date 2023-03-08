@@ -97,6 +97,13 @@ main .info p:last-of-type {
   text-align: justify;
 }
 
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 900px) {
   main {
     display: flex;
