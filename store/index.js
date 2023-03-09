@@ -82,7 +82,8 @@ export const actions = {
           commit("setToCart", []);
         }
       });
-    return Promise.all([promise1, promise2]).then();
+    // return Promise.all([promise1, promise2]).then();
+    return promise1;
   },
   initAuth({ commit, dispatch }, req) {
     let user;
