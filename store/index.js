@@ -57,34 +57,34 @@ export const mutations = {
 };
 
 export const actions = {
-  async nuxtServerInit({ commit }) {
-    let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
-    let promise1 = axios.get(url1).then(function (response) {
-      const shoeArray = [];
-      for (const key in response.data) {
-        shoeArray.push({ ...response.data[key], id: key });
-      }
-      commit("setShoes", shoeArray);
-    });
+  // async nuxtServerInit({ commit }) {
+  //   let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
+  //   let promise1 = axios.get(url1).then(function (response) {
+  //     const shoeArray = [];
+  //     for (const key in response.data) {
+  //       shoeArray.push({ ...response.data[key], id: key });
+  //     }
+  //     commit("setShoes", shoeArray);
+  //   });
 
-    let promise2 = axios
-      .get(
-        `https://j-shoe-default-rtdb.firebaseio.com/accountCart.json?auth=eyJhbGciOiJSUzI1NiIsImtpZCI6IjU4ODI0YTI2ZjFlY2Q1NjEyN2U4OWY1YzkwYTg4MDYxMTJhYmU5OWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidG9uaSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9qLXNob2UiLCJhdWQiOiJqLXNob2UiLCJhdXRoX3RpbWUiOjE2NzgyNTI0MDUsInVzZXJfaWQiOiJtRWVPaTBGeUtPWnBCeGJkY0NKalRwYTIzUXIxIiwic3ViIjoibUVlT2kwRnlLT1pwQnhiZGNDSmpUcGEyM1FyMSIsImlhdCI6MTY3ODI1MjQwNSwiZXhwIjoxNjc4MjU2MDA1LCJlbWFpbCI6ImFib3l0b25nMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJveXRvbmcxQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.X-YxBgIgY5F5YbxrDKUo-uOjOGNUliAd0kQ8eHS2TfVh6I2PCceQiv77yF94L_ltvtVpdV7YN5fcFx_0EAhGbkHgDYJKZnnJN403PVya-ZkigF_VqKdbJtnXikBGj9ECEMiYOGwyMrYfJ75ByRuTVO_NtqLuhI-DeUfOERmWD9KSdKIbwtYPyz_ZiG4Ji7LJIr8enjAkDH22BeqVgvmx0lsxYk47-zmZqb_1l-Dz1BZI1wek388iugQHLm7vmF7zIKEFN0bi7UMQAHBPo75CcA7DfSaGhRdhs6r8FNJ5MboWHvwF09PCsccYsykylNkVmU1GOC2MTyXCCDQn4ccbOQ`
-      )
-      .then((response) => {
-        if (response.data) {
-          const cartArray = [];
-          for (const key in response.data) {
-            cartArray.push({ ...response.data[key], id: [key] });
-          }
-          commit("setToCart", cartArray);
-        } else {
-          commit("setToCart", []);
-        }
-      });
-    // return Promise.all([promise1, promise2]).then();
-    return promise1;
-  },
+  //   let promise2 = axios
+  //     .get(
+  //       `https://j-shoe-default-rtdb.firebaseio.com/accountCart.json?auth=eyJhbGciOiJSUzI1NiIsImtpZCI6IjU4ODI0YTI2ZjFlY2Q1NjEyN2U4OWY1YzkwYTg4MDYxMTJhYmU5OWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidG9uaSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9qLXNob2UiLCJhdWQiOiJqLXNob2UiLCJhdXRoX3RpbWUiOjE2NzgyNTI0MDUsInVzZXJfaWQiOiJtRWVPaTBGeUtPWnBCeGJkY0NKalRwYTIzUXIxIiwic3ViIjoibUVlT2kwRnlLT1pwQnhiZGNDSmpUcGEyM1FyMSIsImlhdCI6MTY3ODI1MjQwNSwiZXhwIjoxNjc4MjU2MDA1LCJlbWFpbCI6ImFib3l0b25nMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJveXRvbmcxQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.X-YxBgIgY5F5YbxrDKUo-uOjOGNUliAd0kQ8eHS2TfVh6I2PCceQiv77yF94L_ltvtVpdV7YN5fcFx_0EAhGbkHgDYJKZnnJN403PVya-ZkigF_VqKdbJtnXikBGj9ECEMiYOGwyMrYfJ75ByRuTVO_NtqLuhI-DeUfOERmWD9KSdKIbwtYPyz_ZiG4Ji7LJIr8enjAkDH22BeqVgvmx0lsxYk47-zmZqb_1l-Dz1BZI1wek388iugQHLm7vmF7zIKEFN0bi7UMQAHBPo75CcA7DfSaGhRdhs6r8FNJ5MboWHvwF09PCsccYsykylNkVmU1GOC2MTyXCCDQn4ccbOQ`
+  //     )
+  //     .then((response) => {
+  //       if (response.data) {
+  //         const cartArray = [];
+  //         for (const key in response.data) {
+  //           cartArray.push({ ...response.data[key], id: [key] });
+  //         }
+  //         commit("setToCart", cartArray);
+  //       } else {
+  //         commit("setToCart", []);
+  //       }
+  //     });
+  //   // return Promise.all([promise1, promise2]).then();
+  //   return promise1;
+  // },
   initAuth({ commit, dispatch }, req) {
     let user;
     let token;
