@@ -47,12 +47,29 @@ export default {
   },
   middleware: ["check-auth", "auth"],
   data() {
-    return {};
+    return {
+      shoes: [],
+    };
   },
   computed: {
     shoes() {
       return this.$store.getters.getShoes;
     },
+  },
+  methods: {
+    fetchData() {
+      let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
+      axios.get(url1).then(function (response) {
+        const shoeArray = [];
+        for (const key in response.data) {
+          shoeArray.push({ ...response.data[key], id: key });
+        }
+        this.shoes = shoeArray;
+      });
+    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>
