@@ -65,34 +65,46 @@ export default {
   },
   methods: {
     addItem(item) {
-      this.$store.dispatch("addUserCart", {
-        ...item,
-        id: item.id.map((item, index) => index === 0),
-      });
+      this.$store.dispatch("addUserCart", item);
+      location.reload();
     },
     removeItem(idx) {
       this.$store.dispatch("deleteUserCart", idx[0]);
+      location.reload();
     },
     clear() {
-      let cart = this.$store.getters.getCart;
+      let userId = this.userData.userId;
+      let cart = this.$store.getters.getCart.filter(
+        (item) => item.userId === userId
+      );
       for (const item of cart) {
         this.$store.dispatch("deleteUserCart", item.id[0]);
       }
       this.total = 0;
-      //   this.$router.push("/");
     },
   },
+  middleware: ["check-auth", "auth"],
   computed: {
+    userData() {
+      return this.$store.getters.getUserData;
+    },
     cart() {
       let cartArray = [];
-      let cart = this.$store.getters.getCart;
+      let userId = this.userData.userId;
+      let cart = this.$store.getters.getCart.filter(
+        (item) => item.userId === userId
+      );
       for (const item of cart) {
         if (cartArray.some((items) => items.title === item.title)) {
           let arr = cartArray.find((itemss) => itemss.title === item.title);
           let index = cartArray.indexOf(arr);
           let cartClone = cartArray;
           cartClone[index].qty = cartClone[index].qty + 1;
-          cartClone[index].id = [...cartClone[index].id, item.id[0]];
+          try {
+            cartClone[index].id = [...cartClone[index].id, ...item.id];
+          } catch (error) {
+            cartClone[index].id = item.id;
+          }
 
           cartArray = cartClone;
         } else {

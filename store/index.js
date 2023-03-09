@@ -69,11 +69,7 @@ export const actions = {
 
     let promise2 = axios
       .get(
-        `https://j-shoe-default-rtdb.firebaseio.com/accountCart${
-          state.userData?.userId
-            ? state.userData?.userId
-            : "peb6OlEdJFNCxNvcsrskQ2aUfZs2"
-        }.json?auth=eyJhbGciOiJSUzI1NiIsImtpZCI6IjU4ODI0YTI2ZjFlY2Q1NjEyN2U4OWY1YzkwYTg4MDYxMTJhYmU5OWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidG9uaSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9qLXNob2UiLCJhdWQiOiJqLXNob2UiLCJhdXRoX3RpbWUiOjE2NzgyNTI0MDUsInVzZXJfaWQiOiJtRWVPaTBGeUtPWnBCeGJkY0NKalRwYTIzUXIxIiwic3ViIjoibUVlT2kwRnlLT1pwQnhiZGNDSmpUcGEyM1FyMSIsImlhdCI6MTY3ODI1MjQwNSwiZXhwIjoxNjc4MjU2MDA1LCJlbWFpbCI6ImFib3l0b25nMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJveXRvbmcxQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.X-YxBgIgY5F5YbxrDKUo-uOjOGNUliAd0kQ8eHS2TfVh6I2PCceQiv77yF94L_ltvtVpdV7YN5fcFx_0EAhGbkHgDYJKZnnJN403PVya-ZkigF_VqKdbJtnXikBGj9ECEMiYOGwyMrYfJ75ByRuTVO_NtqLuhI-DeUfOERmWD9KSdKIbwtYPyz_ZiG4Ji7LJIr8enjAkDH22BeqVgvmx0lsxYk47-zmZqb_1l-Dz1BZI1wek388iugQHLm7vmF7zIKEFN0bi7UMQAHBPo75CcA7DfSaGhRdhs6r8FNJ5MboWHvwF09PCsccYsykylNkVmU1GOC2MTyXCCDQn4ccbOQ`
+        `https://j-shoe-default-rtdb.firebaseio.com/accountCart.json?auth=eyJhbGciOiJSUzI1NiIsImtpZCI6IjU4ODI0YTI2ZjFlY2Q1NjEyN2U4OWY1YzkwYTg4MDYxMTJhYmU5OWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidG9uaSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9qLXNob2UiLCJhdWQiOiJqLXNob2UiLCJhdXRoX3RpbWUiOjE2NzgyNTI0MDUsInVzZXJfaWQiOiJtRWVPaTBGeUtPWnBCeGJkY0NKalRwYTIzUXIxIiwic3ViIjoibUVlT2kwRnlLT1pwQnhiZGNDSmpUcGEyM1FyMSIsImlhdCI6MTY3ODI1MjQwNSwiZXhwIjoxNjc4MjU2MDA1LCJlbWFpbCI6ImFib3l0b25nMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJveXRvbmcxQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.X-YxBgIgY5F5YbxrDKUo-uOjOGNUliAd0kQ8eHS2TfVh6I2PCceQiv77yF94L_ltvtVpdV7YN5fcFx_0EAhGbkHgDYJKZnnJN403PVya-ZkigF_VqKdbJtnXikBGj9ECEMiYOGwyMrYfJ75ByRuTVO_NtqLuhI-DeUfOERmWD9KSdKIbwtYPyz_ZiG4Ji7LJIr8enjAkDH22BeqVgvmx0lsxYk47-zmZqb_1l-Dz1BZI1wek388iugQHLm7vmF7zIKEFN0bi7UMQAHBPo75CcA7DfSaGhRdhs6r8FNJ5MboWHvwF09PCsccYsykylNkVmU1GOC2MTyXCCDQn4ccbOQ`
       )
       .then((response) => {
         if (response.data) {
@@ -120,32 +116,33 @@ export const actions = {
   addUserCart({ state, commit }, shoe) {
     return axios
       .post(
-        `https://j-shoe-default-rtdb.firebaseio.com/accountCart${localStorage.getItem(
-          "userId"
-        )}.json?auth=` + localStorage.getItem("token"),
+        `https://j-shoe-default-rtdb.firebaseio.com/accountCart.json?auth=` +
+          localStorage.getItem("token"),
         {
           ...shoe,
+          userId: localStorage.getItem("userId"),
         }
       )
       .then((response) => {
         commit("addToCart", {
           ...shoe,
+          userId: localStorage.getItem("userId"),
         });
       });
   },
   deleteUserCart({ state, commit }, shoeId) {
     return axios
       .delete(
-        `https://j-shoe-default-rtdb.firebaseio.com/accountCart${
-          localStorage.getItem("userId") + "/" + shoeId
-        }.json?auth=` + localStorage.getItem("token")
+        `https://j-shoe-default-rtdb.firebaseio.com/accountCart/` +
+          shoeId +
+          `.json?auth=` +
+          localStorage.getItem("token")
       )
       .then((response) => {
         commit("removeToCart", shoeId);
       });
   },
   deleteShoes({ commit }, shoeId) {
-    alert(shoeId);
     return axios
       .delete(
         "https://j-shoe-default-rtdb.firebaseio.com/shoeList/" +

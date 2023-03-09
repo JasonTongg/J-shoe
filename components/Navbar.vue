@@ -45,11 +45,13 @@
 <script>
 export default {
   computed: {
-    cart() {
-      return this.$store.getters.getCart;
-    },
     userData() {
       return this.$store.getters.getUserData;
+    },
+    cart() {
+      return this.$store.getters.getCart.filter(
+        (item) => item.userId === this.userData.userId
+      );
     },
   },
   methods: {
