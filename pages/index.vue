@@ -4,7 +4,7 @@
     <main>
       <h2>Product <span>Sale</span></h2>
       <div class="productItems">
-        <div class="item" v-for="shoe in shoes">
+        <div class="item" v-for="(shoe, index) in shoes" :key="index">
           <img :src="shoe.image" alt="" />
           <h2>{{ shoe.title }}</h2>
           <h3>
@@ -39,40 +39,38 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import axios from "axios";
 export default {
   name: "IndexPage",
+  data() {
+    return {
+      // shoes: [],
+    };
+  },
+  middleware: ["check-auth", "auth"],
   components: {
     Navbar,
     Footer,
   },
-  middleware: ["check-auth", "auth"],
-  data() {
-    return {
-      shoes: [],
-    };
-  },
-  computed: {
-    shoes() {
-      return this.$store.getters.getShoes;
-    },
+  async asyncData() {
+    const shoes = [];
+    const post = await axios
+      .get("https://j-shoe-default-rtdb.firebaseio.com/shoeList.json")
+      .then((response) => {
+        for (const key in response.data) {
+          shoes.push({ ...response.data[key], id: key });
+        }
+      });
+    return { shoes };
   },
   methods: {
-    fetchData() {
-      let url1 = "https://j-shoe-default-rtdb.firebaseio.com/shoeList.json";
-      axios.get(url1).then(function (response) {
-        const shoeArray = [];
-        for (const key in response.data) {
-          shoeArray.push({ ...response.data[key], id: key });
-        }
-        this.shoes = shoeArray;
-      });
+    fetchData(data) {
+      console.log(data);
     },
-  },
-  mounted() {
-    this.fetchData();
   },
 };
 </script>
+
 <style scoped>
 * {
   padding: 0;
